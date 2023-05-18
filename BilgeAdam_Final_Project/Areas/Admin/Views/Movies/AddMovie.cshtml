@@ -1,0 +1,74 @@
+﻿@{
+    ViewData["Title"] = "AddMovie";
+}
+@model AddMovieDTO
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <form asp-action="AddMovie" class="w-100" enctype="multipart/form-datae">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 style="margin-left:10px">Film Ekle</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-4">
+                            <label asp-for="Name" class="form-label">Adı</label>
+                            <input asp-for="Name" class="form-control" placeholder="Ad giriniz..." />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="mb-4">
+                            <label asp-for="Description" class="form-label">Açıklama</label>
+                            <input asp-for="Description" class="form-control" placeholder="Soyad giriniz..." />
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                        <div class="mb-4">
+                            <label asp-for="year" class="form-label">yapım Tarihi</label>
+                            <input asp-for="year" class="form-control" />
+                            <span asp-validation-for="year" class="text-danger"></span>
+                        </div>
+                        <div class="mb-4">
+                            <label asp-for="DirectorId" class="form-label">Yönetmen</label>
+                            <select asp-for="DirectorId" asp-items="@ViewBag.Directors" class="form-control">
+                                <option value="0" selected="selected" disabled="disabled">Lütfen Yönetmen Seçiniz</option> <!--ilk satırın seçilememesi için disabled yazdık-->
+                            </select>
+                            <span asp-validation-for="DirectorId" class="text-danger"></span>
+                        </div>
+                        <div class="mb-4">
+                            <label asp-for="Categories" class="form-label">Kategori</label>
+                            <select asp-for="Categories" asp-items="@ViewBag.Categories" multiple="multiple" class="form-control">
+                                <option value="0" disabled="disabled">Lütfen Kategorileri Seçiniz</option> <!--ilk satırın seçilememesi için disabled yazdık-->
+                            </select>
+                            <span asp-validation-for="Categories" class="text-danger"></span>
+                        </div>
+                        <div class="mb-4">
+                            <label asp-for="UploadImage" class="form-label">Resim Yükleyiniz</label>
+                            <input asp-for="UploadImage" onchange="loadFile(event)" class="form-control" />
+                            <span asp-validation-for="UploadImage" class="text-danger"></span>
+                        </div>
+                        <div class="mb-4">
+                            <img id="output" width="100"/>
+                        </div>
+
+                    </div>
+                    <div class="card-footer">
+                        <div class="float-end">
+                            <button type="submit" class="btn btn-outline-primary mb-4">Ekle</button>
+                            <a asp-controller="Movies" asp-action="Index" asp-area="Admin" class="btn btn-outline-warning mb-4">Geri Dön</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script>
+        var loadFile = function (event) {
+            var output = document.getElementById('output');
+            output.src = URL.createObjectURL(event.target.files[0]);
+            output.onload = function () {
+                URL.revokeObjectURL(output.src) // free memory
+            }
+        };
+    </script>
+}
