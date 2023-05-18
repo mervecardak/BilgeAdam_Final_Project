@@ -56,7 +56,7 @@ namespace BilgeAdam_Final_Project.Areas.Admin.Controllers
             return View(movies);
         }
         
-
+        //jksdbka
 
         public async Task<IActionResult> AddMovie()
         {
